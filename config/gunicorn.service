@@ -1,0 +1,16 @@
+[Unit]
+Description=gunicorn daemon for union portal
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/union_portal
+ExecStart=/opt/union_portal/venv/bin/gunicorn \
+    --access-logfile - \
+    --workers 3 \
+    --bind unix:/opt/union_portal/union_portal.sock \
+    union_portal.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
